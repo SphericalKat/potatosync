@@ -1,7 +1,8 @@
 package main
 
 import (
-	"github.com/ATechnoHazard/potatonotes-api/app"
+	"github.com/ATechnoHazard/potatonotes-api/controllers"
+	"github.com/ATechnoHazard/potatonotes-api/middleware"
 	"github.com/gorilla/mux"
 	"log"
 	"net/http"
@@ -10,16 +11,19 @@ import (
 
 func main() {
 	router := mux.NewRouter()
-	router.Use(app.JwtAuthentication) // use our jwt middleware
+	router.Use(middleware.JwtAuthentication) // use our jwt middleware
+
+	router.HandleFunc("/api/users/new", controllers.CreateAccount).Methods("POST")
+	router.HandleFunc("/api/users/login", controllers.Authenticate).Methods("POST")
 
 	port := os.Getenv("PORT")
 	if port == "" {
 		port = "4000"
 	}
 
-	log.Printf("Using port %s\n", port)
+	log.Printf("Listening on port %s\n", port)
 
-	err := http.ListenAndServe(":"+port, router) // launch the app, visit localhost:4000/api
+	err := http.ListenAndServe(":"+port, router) // launch the middleware, visit localhost:4000/api
 	if err != nil {
 		log.Fatalln(err)
 	}

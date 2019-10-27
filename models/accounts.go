@@ -20,7 +20,7 @@ type Account struct {
 	gorm.Model
 	Email    string `json:"email"`
 	Password string `json:"password"`
-	Token    string `json:"token";sql:"-"`
+	Token    string `gorm:"-" json:"token"`
 }
 
 // Validate incoming user details
@@ -66,7 +66,7 @@ func (acc *Account) Create() map[string]interface{} {
 
 	// create a jwt token for the newly registered account
 	tk := &Token{UserId: acc.ID}
-	token := jwt.NewWithClaims(jwt.GetSigningMethod("HS256"), tk)
+	token := jwt.NewWithClaims(jwt.SigningMethodHS256, tk)
 	tokenString, err := token.SignedString([]byte(os.Getenv("token_password")))
 	if err != nil {
 		log.Fatalln(err)
@@ -99,8 +99,8 @@ func Login(email, pass string) map[string]interface{} {
 	acc.Password = ""
 
 	// create jwt token
-	tk := &Token{UserId:acc.ID}
-	token := jwt.NewWithClaims(jwt.GetSigningMethod("HS265"), tk)
+	tk := &Token{UserId: acc.ID}
+	token := jwt.NewWithClaims(jwt.SigningMethodHS256, tk)
 	tokenString, err := token.SignedString([]byte(os.Getenv("token_password")))
 	if err != nil {
 		log.Fatalln(err)

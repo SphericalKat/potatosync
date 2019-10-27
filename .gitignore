@@ -94,3 +94,5 @@ fabric.properties
 .idea/modules.xml
 .idea/potatonotes-api.iml
 .idea/vcs.xml
+
+.env
