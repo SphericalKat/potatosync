@@ -22,11 +22,21 @@ var CreateAccount = func(w http.ResponseWriter, r *http.Request) {
 var Authenticate = func(w http.ResponseWriter, r *http.Request) {
 	acc := &models.Account{}
 	err := json.NewDecoder(r.Body).Decode(acc)
-
 	if err != nil {
 		u.Respond(w, u.Message(false, err.Error()))
 		return
 	}
+
+	if acc.Email == "" {
+		if acc.Username == "" {
+			u.Respond(w, u.Message(false, "Both username and password missing"))
+		}
+
+		res := models.LoginUsername(acc.Username, acc.Password)
+		u.Respond(w, res)
+		return
+	}
+
 	res := models.Login(acc.Email, acc.Password)
 	u.Respond(w, res)
 }

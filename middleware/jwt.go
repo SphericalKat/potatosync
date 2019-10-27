@@ -19,7 +19,6 @@ var JwtAuthentication = func(next http.Handler) http.Handler { // jwt auth middl
 
 		//check if request does not need authentication, serve the request if it doesn't need it
 		for _, value := range notAuth {
-
 			if value == requestPath {
 				next.ServeHTTP(w, r)
 				return
