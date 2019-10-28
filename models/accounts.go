@@ -184,6 +184,37 @@ func AccInfo(ctx context.Context) map[string]interface{} {
 	return res
 }
 
+func ModifyUsername(ctx context.Context, username string) map[string]interface{} {
+	acc := GetUser(ctx.Value("user").(uint))
+	if acc == nil {
+		return u.Message(false, "Account not found")
+	}
+
+	temp := &Account{}
+
+	if len(username) <= 4 || len(username) > 60 {
+		return u.Message(false, "New username out of bounds")
+	}
+
+	err := GetDB().Where("username = ?", username).First(temp).Error
+	if err != nil && err != gorm.ErrRecordNotFound {
+		return u.Message(false, "Connection error, try again")
+	}
+	if temp.Username != "" {
+		if temp.Username == username {
+			return u.Message(true, "Username updated")
+		}
+		return u.Message(false, "Username already in use!")
+	}
+
+	err = GetDB().Model(acc).Update("username", username).Error
+	if err != nil {
+		return u.Message(false, err.Error())
+	}
+
+	return u.Message(true, "Username updated")
+}
+
 func GetUser(u uint) *Account {
 	acc := &Account{}
 	GetDB().Where("id = ?", u).First(acc)

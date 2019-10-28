@@ -13,10 +13,14 @@ func main() {
 	router := mux.NewRouter()
 	router.Use(middleware.JwtAuthentication) // use our jwt middleware
 
+	// Auth routes
 	router.HandleFunc("/api/users/new", controllers.CreateAccount).Methods("POST")
 	router.HandleFunc("/api/users/login", controllers.Authenticate).Methods("POST")
 	router.HandleFunc("/api/users/delete", controllers.Delete).Methods("POST")
 	router.HandleFunc("/api/users/info", controllers.UserInfo).Methods("GET")
+
+	// User acc mgmt routes
+	router.HandleFunc("/api/users/manage/username", controllers.ModifyUsername).Methods("POST")
 
 	port := os.Getenv("PORT")
 	if port == "" {
