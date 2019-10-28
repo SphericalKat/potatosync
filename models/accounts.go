@@ -1,6 +1,7 @@
 package models
 
 import (
+	"context"
 	u "github.com/ATechnoHazard/potatonotes-api/utils"
 	"github.com/dgrijalva/jwt-go"
 	"github.com/jinzhu/gorm"
@@ -146,6 +147,7 @@ func LoginUsername(username, pass string) map[string]interface{} {
 
 	// create jwt token
 	tk := &Token{UserId: acc.ID}
+
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, tk)
 	tokenString, err := token.SignedString([]byte(os.Getenv("token_password")))
 	if err != nil {
@@ -155,6 +157,20 @@ func LoginUsername(username, pass string) map[string]interface{} {
 	res := u.Message(true, "Login successful")
 	res["account"] = acc
 	return res
+}
+
+func Delete(ctx context.Context) map[string]interface{} {
+	acc := GetUser(ctx.Value("user").(uint))
+	if acc == nil {
+		return u.Message(false, "Account not found")
+	}
+
+	err := GetDB().Delete(acc).Error
+	if err != nil {
+		return u.Message(false, err.Error())
+	}
+
+	return u.Message(true, "Account deleted")
 }
 
 func GetUser(u uint) *Account {

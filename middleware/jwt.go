@@ -7,7 +7,6 @@ import (
 	"github.com/dgrijalva/jwt-go"
 	"net/http"
 	"os"
-	"strings"
 )
 
 var JwtAuthentication = func(next http.Handler) http.Handler { // jwt auth middleware function
@@ -36,19 +35,9 @@ var JwtAuthentication = func(next http.Handler) http.Handler { // jwt auth middl
 			return
 		}
 
-		splitted := strings.Split(tokenHeader, " ") //The token normally comes in format `Bearer {token-body}`, we check if the retrieved token matched this requirement
-		if len(splitted) != 2 {
-			response = u.Message(false, "Invalid/Malformed auth token")
-			w.WriteHeader(http.StatusForbidden)
-			w.Header().Add("Content-Type", "application/json")
-			u.Respond(w, response)
-			return
-		}
-
-		tokenPart := splitted[1] //Grab the token part, what we are truly interested in
 		tk := &models.Token{}
 
-		token, err := jwt.ParseWithClaims(tokenPart, tk, func(token *jwt.Token) (interface{}, error) {
+		token, err := jwt.ParseWithClaims(tokenHeader, tk, func(token *jwt.Token) (interface{}, error) {
 			return []byte(os.Getenv("token_password")), nil
 		})
 

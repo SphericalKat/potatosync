@@ -40,3 +40,8 @@ var Authenticate = func(w http.ResponseWriter, r *http.Request) {
 	res := models.Login(acc.Email, acc.Password)
 	u.Respond(w, res)
 }
+
+var Delete = func(w http.ResponseWriter, r *http.Request) {
+	res := models.Delete(r.Context())
+	u.Respond(w, res)
+}
