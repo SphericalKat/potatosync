@@ -173,6 +173,17 @@ func Delete(ctx context.Context) map[string]interface{} {
 	return u.Message(true, "Account deleted")
 }
 
+func AccInfo(ctx context.Context) map[string]interface{} {
+	acc := GetUser(ctx.Value("user").(uint))
+	if acc == nil {
+		return u.Message(false, "Account not found")
+	}
+
+	res := u.Message(true, "Account found")
+	res["account"] = acc
+	return res
+}
+
 func GetUser(u uint) *Account {
 	acc := &Account{}
 	GetDB().Where("id = ?", u).First(acc)

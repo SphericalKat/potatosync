@@ -16,6 +16,7 @@ func main() {
 	router.HandleFunc("/api/users/new", controllers.CreateAccount).Methods("POST")
 	router.HandleFunc("/api/users/login", controllers.Authenticate).Methods("POST")
 	router.HandleFunc("/api/users/delete", controllers.Delete).Methods("POST")
+	router.HandleFunc("/api/users/info", controllers.UserInfo).Methods("GET")
 
 	port := os.Getenv("PORT")
 	if port == "" {

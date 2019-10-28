@@ -45,3 +45,8 @@ var Delete = func(w http.ResponseWriter, r *http.Request) {
 	res := models.Delete(r.Context())
 	u.Respond(w, res)
 }
+
+var UserInfo = func(w http.ResponseWriter, r *http.Request) {
+	res := models.AccInfo(r.Context())
+	u.Respond(w, res)
+}
