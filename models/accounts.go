@@ -215,6 +215,29 @@ func ModifyUsername(ctx context.Context, username string) map[string]interface{}
 	return u.Message(true, "Username updated")
 }
 
+func ModifyPassword(ctx context.Context, password string) map[string]interface{} {
+	acc := GetUser(ctx.Value("user").(uint))
+	if acc == nil {
+		return u.Message(false, "Account not found")
+	}
+
+	if len(password) < 8 || len(password) > 60 {
+		return u.Message(false, "New password out of bounds")
+	}
+
+	hashedPass, err := bcrypt.GenerateFromPassword([]byte(password), bcrypt.DefaultCost)
+	if err != nil {
+		log.Fatalln(err)
+	}
+
+	err = GetDB().Model(acc).Update("password", hashedPass).Error
+	if err != nil {
+		return u.Message(false, err.Error())
+	}
+
+	return u.Message(true, "Password updated")
+}
+
 func GetUser(u uint) *Account {
 	acc := &Account{}
 	GetDB().Where("id = ?", u).First(acc)

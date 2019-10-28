@@ -21,6 +21,7 @@ func main() {
 
 	// User acc mgmt routes
 	router.HandleFunc("/api/users/manage/username", controllers.ModifyUsername).Methods("POST")
+	router.HandleFunc("/api/users/manage/password", controllers.ModifyPassword).Methods("POST")
 
 	port := os.Getenv("PORT")
 	if port == "" {
