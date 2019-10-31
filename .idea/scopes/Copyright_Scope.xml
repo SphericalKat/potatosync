@@ -1,0 +1,3 @@
+<component name="DependencyValidationManager">
+  <scope name="Copyright_Scope" pattern="file[potatonotes-api]:*/&amp;&amp;!file:.env&amp;&amp;!file:.gitignore&amp;&amp;!file:go.mod&amp;&amp;!file:go.sum&amp;&amp;!file:sample.env&amp;&amp;!file[potatonotes-api]:.idea//*" />
+</component>
