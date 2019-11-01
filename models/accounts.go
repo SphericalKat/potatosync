@@ -57,8 +57,6 @@ func (acc *Account) Validate() (map[string]interface{}, bool) {
 		return u.Message(false, "Password length not in bounds"), false
 	}
 
-	acc.Username = strings.ToLower(acc.Username)
-
 	temp := &Account{}
 
 	// check for duplicate email and username
@@ -147,7 +145,7 @@ func Login(email, pass string) map[string]interface{} {
 
 func LoginUsername(username, pass string) map[string]interface{} {
 	acc := &Account{}
-	err := GetDB().Where("username = ?", strings.ToLower(username)).First(acc).Error
+	err := GetDB().Where("username = ?", username).First(acc).Error
 	if err != nil {
 		if err == gorm.ErrRecordNotFound {
 			return u.Message(false, "Username not found")
