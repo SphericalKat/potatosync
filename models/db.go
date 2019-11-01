@@ -30,9 +30,11 @@ var db *gorm.DB //database
 
 func init() {
 
-	err := godotenv.Load() //Load .env file
-	if err != nil {
-		log.Fatalln(err)
+	if _, ok := os.LookupEnv("HEROKU"); !ok {
+		err := godotenv.Load() //Load .env file
+		if err != nil {
+			log.Fatalln(err)
+		}
 	}
 
 	username := os.Getenv("db_user")
@@ -40,6 +42,10 @@ func init() {
 	dbName := os.Getenv("db_name")
 	dbHost := os.Getenv("db_host")
 	dbType := os.Getenv("db_type")
+
+	if _, ok := os.LookupEnv("HEROKU"); ok {
+
+	}
 
 	dbUri := fmt.Sprintf("host=%s user=%s dbname=%s sslmode=require password=%s", dbHost, username, dbName,
 		password) //Build the connection string
