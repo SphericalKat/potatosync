@@ -33,7 +33,7 @@ func main() {
 	// Auth routes
 	router.HandleFunc("/api/users/new", controllers.CreateAccount).Methods("POST")
 	router.HandleFunc("/api/users/login", controllers.Authenticate).Methods("POST")
-	router.HandleFunc("/api/users/delete", controllers.Delete).Methods("POST")
+	router.HandleFunc("/api/users/delete", controllers.DeleteAccount).Methods("POST")
 	router.HandleFunc("/api/users/info", controllers.UserInfo).Methods("GET")
 
 	// User acc mgmt routes
@@ -41,8 +41,9 @@ func main() {
 	router.HandleFunc("/api/users/manage/password", controllers.ModifyPassword).Methods("POST")
 
 	// Notes routes
-	router.HandleFunc("/api/notes/create", controllers.CreateNote).Methods("POST")
+	router.HandleFunc("/api/notes/save", controllers.CreateNote).Methods("POST")
 	router.HandleFunc("/api/notes/list", controllers.ListNotes).Methods("GET")
+	router.HandleFunc("/api/notes/delete", controllers.DeleteNote).Methods("POST")
 
 	port := os.Getenv("PORT")
 	if port == "" {

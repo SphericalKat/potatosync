@@ -31,11 +31,22 @@ var CreateNote = func(w http.ResponseWriter, r *http.Request) {
 		u.Respond(w, u.Message(false, err.Error()))
 		return
 	}
-	res := note.Create(r.Context())
+	res := note.SaveNote(r.Context())
 	u.Respond(w, res)
 }
 
 var ListNotes = func(w http.ResponseWriter, r *http.Request) {
 	res := models.ListNotes(r.Context())
+	u.Respond(w, res)
+}
+
+var DeleteNote = func(w http.ResponseWriter, r *http.Request) {
+	note := &models.Notes{}
+	err := json.NewDecoder(r.Body).Decode(note)
+	if err != nil {
+		u.Respond(w, u.Message(false, err.Error()))
+		return
+	}
+	res := models.DeleteNote(r.Context(), note.NoteID)
 	u.Respond(w, res)
 }

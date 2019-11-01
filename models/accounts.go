@@ -177,7 +177,7 @@ func LoginUsername(username, pass string) map[string]interface{} {
 	return res
 }
 
-func Delete(ctx context.Context) map[string]interface{} {
+func DeleteAccount(ctx context.Context) map[string]interface{} {
 	acc := GetUser(ctx.Value("user").(uint))
 	if acc == nil {
 		return u.Message(false, "Account not found")

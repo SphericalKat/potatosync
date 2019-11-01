@@ -41,7 +41,7 @@ type Notes struct {
 	IsArchived      bool   `json:"is_archived"`
 }
 
-func (note *Notes) Create(ctx context.Context) map[string]interface{} {
+func (note *Notes) SaveNote(ctx context.Context) map[string]interface{} {
 	acc := GetUser(ctx.Value("user").(uint))
 	if acc == nil {
 		return u.Message(false, "Account not found")
@@ -72,4 +72,23 @@ func ListNotes(ctx context.Context) map[string]interface{} {
 	res := make(map[string]interface{})
 	res["notes"] = notes
 	return res
+}
+
+func DeleteNote(ctx context.Context, noteID uint) map[string]interface{} {
+	acc := GetUser(ctx.Value("user").(uint))
+	if acc == nil {
+		return u.Message(false, "Account not found")
+	}
+
+	if noteID <= 0 {
+		return u.Message(false, "Notes must have an id")
+	}
+
+	note := &Notes{}
+	err := GetDB().Debug().Where("note_id = ?", noteID).Where("account_id = ?", acc.ID).Delete(note).Error
+	if err != nil {
+		return u.Message(false, err.Error())
+	}
+
+	return u.Message(true, "Note deleted")
 }

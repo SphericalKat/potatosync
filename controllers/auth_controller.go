@@ -24,6 +24,24 @@ import (
 	"net/http"
 )
 
+/**
+* @api {post} /api/users/new
+* @apiName Create a new user account
+* @apiGroup Authorization
+*
+* @apiPermission anyone
+* @apiParam {string} email User's email address
+* @apiParam {string} username Username
+* @apiParam {string} password Password to use for this account
+* @apiParamExample {json} request-example
+*
+* {
+*	"email": "amolele@gmail.com",
+*	"username": "SphericalKat",
+*	"password": "forthencho"
+* }
+*
+**/
 var CreateAccount = func(w http.ResponseWriter, r *http.Request) {
 	acc := &models.Account{}
 	err := json.NewDecoder(r.Body).Decode(acc) // decode request body
@@ -36,6 +54,24 @@ var CreateAccount = func(w http.ResponseWriter, r *http.Request) {
 	u.Respond(w, res)
 }
 
+/**
+* @api {post} /api/users/login
+* @apiName Log into user account
+* @apiGroup Authorization
+*
+* @apiPermission anyone
+* @apiParam {string} [email] User's email address
+* @apiParam {string} [username] Username
+* @apiParam {string} password Password to use for this account
+* @apiParamExample {json} request-example
+*
+* {
+*	"email": "amolele@gmail.com",
+*	"username": "SphericalKat",
+*	"password": "forthencho"
+* }
+*
+**/
 var Authenticate = func(w http.ResponseWriter, r *http.Request) {
 	acc := &models.Account{}
 	err := json.NewDecoder(r.Body).Decode(acc)
@@ -58,11 +94,33 @@ var Authenticate = func(w http.ResponseWriter, r *http.Request) {
 	u.Respond(w, res)
 }
 
-var Delete = func(w http.ResponseWriter, r *http.Request) {
-	res := models.Delete(r.Context())
+/**
+* @api {post} /api/users/delete
+* @apiName Delete a user account
+* @apiGroup Authorization
+*
+* @apiPermission Logged-in users
+* @apiHeader {string} Authorization JWT token associated with user account
+* @apiHeaderExample {string} Header-Example:
+*	eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySWQiOjV9.FTIhjfCLND1L-hvhgH9_TC_P7MbGQnjnNnFOjJL8Q1k
+*
+**/
+var DeleteAccount = func(w http.ResponseWriter, r *http.Request) {
+	res := models.DeleteAccount(r.Context())
 	u.Respond(w, res)
 }
 
+/**
+* @api {get} /api/users/info
+* @apiName View info about user account
+* @apiGroup Authorization
+*
+* @apiPermission Logged-in users
+* @apiHeader {string} Authorization JWT token associated with user account
+* @apiHeaderExample {string} Header-Example:
+*	eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySWQiOjV9.FTIhjfCLND1L-hvhgH9_TC_P7MbGQnjnNnFOjJL8Q1k
+*
+**/
 var UserInfo = func(w http.ResponseWriter, r *http.Request) {
 	res := models.AccInfo(r.Context())
 	u.Respond(w, res)
