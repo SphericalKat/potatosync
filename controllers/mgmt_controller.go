@@ -24,6 +24,27 @@ import (
 	"net/http"
 )
 
+/**
+* @api {post} /api/users/manage/username
+* @apiName Modify account's username
+* @apiGroup Authorization
+*
+* @apiPermission Logged-in users
+*
+* @apiParam {string} email The user's email
+* @apiParam {string} username The new username
+* @apiParamExample {json} request-example
+*
+* {
+*	"email": "john.doe@example.com",
+*	"username": "JohnDoe",
+* }
+*
+* @apiHeader {string} Authorization JWT token associated with user account
+* @apiHeaderExample {string} Header-Example:
+*	eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySWQiOjV9.FTIhjfCLND1L-hvhgH9_TC_P7MbGQnjnNnFOjJL8Q1k
+*
+**/
 var ModifyUsername = func(w http.ResponseWriter, r *http.Request) {
 	acc := &models.Account{}
 	err := json.NewDecoder(r.Body).Decode(acc)
@@ -36,6 +57,25 @@ var ModifyUsername = func(w http.ResponseWriter, r *http.Request) {
 	u.Respond(w, res)
 }
 
+/**
+* @api {post} /api/users/manage/password
+* @apiName Modify account's password
+* @apiGroup Authorization
+*
+* @apiPermission Logged-in users
+*
+* @apiParam {string} password The new password
+* @apiParamExample {json} request-example
+*
+* {
+*	"password": "password123",
+* }
+*
+* @apiHeader {string} Authorization JWT token associated with user account
+* @apiHeaderExample {string} Header-Example:
+*	eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySWQiOjV9.FTIhjfCLND1L-hvhgH9_TC_P7MbGQnjnNnFOjJL8Q1k
+*
+**/
 var ModifyPassword = func(w http.ResponseWriter, r *http.Request) {
 	acc := &models.Account{}
 	err := json.NewDecoder(r.Body).Decode(acc)

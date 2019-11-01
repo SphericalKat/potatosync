@@ -1,0 +1,8 @@
+{
+  "name": "PotatoSync",
+  "version": "0.1.0",
+  "description": "A sync API for PotatoNotes",
+  "title": "PotatoSync",
+  "groups": ["Authorization", "Notes"],
+  "url" : "https://localhost:4000"
+}

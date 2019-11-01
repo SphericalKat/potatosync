@@ -32,13 +32,13 @@ import (
 * @apiPermission anyone
 * @apiParam {string} email User's email address
 * @apiParam {string} username Username
-* @apiParam {string} password Password to use for this account
+* @apiParam {string{8..60}} password Password to use for this account
 * @apiParamExample {json} request-example
 *
 * {
-*	"email": "amolele@gmail.com",
-*	"username": "SphericalKat",
-*	"password": "forthencho"
+*	"email": "john.doe@example.com",
+*	"username": "JohnDoe",
+*	"password": "password123"
 * }
 *
 **/
@@ -62,13 +62,13 @@ var CreateAccount = func(w http.ResponseWriter, r *http.Request) {
 * @apiPermission anyone
 * @apiParam {string} [email] User's email address
 * @apiParam {string} [username] Username
-* @apiParam {string} password Password to use for this account
+* @apiParam {string{8..60}} password Password to use for this account
 * @apiParamExample {json} request-example
 *
 * {
-*	"email": "amolele@gmail.com",
-*	"username": "SphericalKat",
-*	"password": "forthencho"
+*	"email": "john.doe@example.com",
+*	"username": "JohnDoe",
+*	"password": "password123"
 * }
 *
 **/
