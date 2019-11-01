@@ -36,10 +36,11 @@ type Token struct {
 // Represents a user account
 type Account struct {
 	gorm.Model
-	Email    string `json:"email"`
-	Username string `json:"username"`
-	Password string `json:"password"`
-	Token    string `gorm:"-" json:"token"`
+	Email    string  `json:"email"`
+	Username string  `json:"username"`
+	Password string  `json:"password"`
+	Token    string  `gorm:"-" json:"token"`
+	Notes    []Notes `gorm:"foreignkey:AccountID" json:"-"`
 }
 
 // Validate incoming user details

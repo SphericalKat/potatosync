@@ -40,6 +40,10 @@ func main() {
 	router.HandleFunc("/api/users/manage/username", controllers.ModifyUsername).Methods("POST")
 	router.HandleFunc("/api/users/manage/password", controllers.ModifyPassword).Methods("POST")
 
+	// Notes routes
+	router.HandleFunc("/api/notes/create", controllers.CreateNote).Methods("POST")
+	router.HandleFunc("/api/notes/list", controllers.ListNotes).Methods("GET")
+
 	port := os.Getenv("PORT")
 	if port == "" {
 		port = "4000"
