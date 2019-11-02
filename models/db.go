@@ -57,7 +57,7 @@ func init() {
 
 	db = conn
 	log.Println("Auto-migrating db")
-	db.Debug().AutoMigrate(&Account{}, &Notes{}) //Database migration
+	db.AutoMigrate(&Account{}, &Notes{}) //Database migration
 	log.Println("Auto-migration complete")
 }
 

@@ -30,7 +30,7 @@ type Notes struct {
 	IsStarred       bool   `json:"is_starred"`
 	Date            int    `json:"date"`
 	Color           int    `json:"color"`
-	ImagePath       string `json:"image_path"`
+	ImageUrl        string `json:"image_url"`
 	IsList          bool   `json:"is_list"`
 	ListParseString string `json:"list_parse_string"`
 	Reminders       string `json:"reminders"`
@@ -85,7 +85,7 @@ func DeleteNote(ctx context.Context, noteID uint) map[string]interface{} {
 	}
 
 	note := &Notes{}
-	err := GetDB().Debug().Where("note_id = ?", noteID).Where("account_id = ?", acc.ID).Delete(note).Error
+	err := GetDB().Where("note_id = ?", noteID).Where("account_id = ?", acc.ID).Delete(note).Error
 	if err != nil {
 		return u.Message(false, err.Error())
 	}

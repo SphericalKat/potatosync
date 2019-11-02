@@ -40,6 +40,7 @@ type Account struct {
 	Username string  `json:"username"`
 	Password string  `json:"password"`
 	Token    string  `gorm:"-" json:"token"`
+	ImageUrl string  `json:"image_url"`
 	Notes    []Notes `gorm:"foreignkey:AccountID" json:"-"`
 }
 
