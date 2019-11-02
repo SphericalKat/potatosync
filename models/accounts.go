@@ -46,15 +46,15 @@ type Account struct {
 // Validate incoming user details
 func (acc *Account) Validate() (map[string]interface{}, bool) {
 	if !strings.Contains(acc.Email, "@") {
-		return u.Message(false, "Missing/Malformed email"), false
+		return u.Message(false, "MalformedEmailError"), false
 	}
 
 	if len(acc.Username) <= 4 || len(acc.Username) > 60 {
-		return u.Message(false, "Username length not in bounds"), false
+		return u.Message(false, "UsernameOutOfBoundsError"), false
 	}
 
 	if len(acc.Password) < 8 || len(acc.Password) > 60 {
-		return u.Message(false, "Password length not in bounds"), false
+		return u.Message(false, "PassOutOfBoundsError"), false
 	}
 
 	temp := &Account{}
@@ -62,21 +62,21 @@ func (acc *Account) Validate() (map[string]interface{}, bool) {
 	// check for duplicate email and username
 	err := GetDB().Where("email = ?", acc.Email).First(temp).Error
 	if err != nil && err != gorm.ErrRecordNotFound {
-		return u.Message(false, "Connection error, try again"), false
+		return u.Message(false, "DbConnectionError"), false
 	}
 	if temp.Email != "" {
-		return u.Message(false, "Email address already in use!"), false
+		return u.Message(false, "EmailAlreadyExistsError"), false
 	}
 
 	err = GetDB().Where("username = ?", acc.Username).First(temp).Error
 	if err != nil && err != gorm.ErrRecordNotFound {
-		return u.Message(false, "Connection error, try again"), false
+		return u.Message(false, "DbConnectionError"), false
 	}
 	if temp.Username != "" {
-		return u.Message(false, "Username already in use!"), false
+		return u.Message(false, "UsernameAlreadyExistsError"), false
 	}
 
-	return u.Message(true, "Validated successfully"), true
+	return u.Message(true, "ValidationSuccess"), true
 }
 
 func (acc *Account) Create() map[string]interface{} {
@@ -93,7 +93,7 @@ func (acc *Account) Create() map[string]interface{} {
 	GetDB().Create(acc)
 
 	if acc.ID <= 0 {
-		return u.Message(false, "Failed to create account, connection error")
+		return u.Message(false, "DbConnectionError")
 	}
 
 	// create a jwt token for the newly registered account
@@ -107,7 +107,7 @@ func (acc *Account) Create() map[string]interface{} {
 
 	acc.Password = "" // delete password
 
-	response := u.Message(true, "Account has been created")
+	response := u.Message(true, "AccCreationSuccess")
 	response["account"] = acc
 	return response
 }
@@ -148,14 +148,14 @@ func LoginUsername(username, pass string) map[string]interface{} {
 	err := GetDB().Where("username = ?", username).First(acc).Error
 	if err != nil {
 		if err == gorm.ErrRecordNotFound {
-			return u.Message(false, "Username not found")
+			return u.Message(false, "UsernameNotFoundError")
 		}
-		return u.Message(false, "Connection error, try again")
+		return u.Message(false, "DbConnectionError")
 	}
 
 	err = bcrypt.CompareHashAndPassword([]byte(acc.Password), []byte(pass))
 	if err != nil && err == bcrypt.ErrMismatchedHashAndPassword { // password doesn't match
-		return u.Message(false, "Invalid login credentials")
+		return u.Message(false, "InvalidCredentialsError")
 	}
 
 	// login successful
@@ -170,7 +170,7 @@ func LoginUsername(username, pass string) map[string]interface{} {
 		log.Fatalln(err)
 	}
 	acc.Token = tokenString
-	res := u.Message(true, "Login successful")
+	res := u.Message(true, "LoginSuccess")
 	res["account"] = acc
 	return res
 }
@@ -178,7 +178,7 @@ func LoginUsername(username, pass string) map[string]interface{} {
 func DeleteAccount(ctx context.Context) map[string]interface{} {
 	acc := GetUser(ctx.Value("user").(uint))
 	if acc == nil {
-		return u.Message(false, "Account not found")
+		return u.Message(false, "NotFoundError")
 	}
 
 	err := GetDB().Delete(acc).Error
@@ -186,16 +186,16 @@ func DeleteAccount(ctx context.Context) map[string]interface{} {
 		return u.Message(false, err.Error())
 	}
 
-	return u.Message(true, "Account deleted")
+	return u.Message(true, "DeleteSuccess")
 }
 
 func AccInfo(ctx context.Context) map[string]interface{} {
 	acc := GetUser(ctx.Value("user").(uint))
 	if acc == nil {
-		return u.Message(false, "Account not found")
+		return u.Message(false, "UserNotFoundError")
 	}
 
-	res := u.Message(true, "Account found")
+	res := u.Message(true, "UserFound")
 	res["account"] = acc
 	return res
 }
@@ -203,24 +203,24 @@ func AccInfo(ctx context.Context) map[string]interface{} {
 func ModifyUsername(ctx context.Context, username string) map[string]interface{} {
 	acc := GetUser(ctx.Value("user").(uint))
 	if acc == nil {
-		return u.Message(false, "Account not found")
+		return u.Message(false, "UserNotFoundError")
 	}
 
 	temp := &Account{}
 
 	if len(username) <= 4 || len(username) > 60 {
-		return u.Message(false, "New username out of bounds")
+		return u.Message(false, "OutOfBoundsError")
 	}
 
 	err := GetDB().Where("username = ?", username).First(temp).Error
 	if err != nil && err != gorm.ErrRecordNotFound {
-		return u.Message(false, "Connection error, try again")
+		return u.Message(false, "DbConnectionError")
 	}
 	if temp.Username != "" {
 		if temp.Username == username {
-			return u.Message(true, "Username updated")
+			return u.Message(true, "UpdateSuccess")
 		}
-		return u.Message(false, "Username already in use!")
+		return u.Message(false, "UsernameAlreadyExistsError")
 	}
 
 	err = GetDB().Model(acc).Update("username", username).Error
@@ -228,17 +228,17 @@ func ModifyUsername(ctx context.Context, username string) map[string]interface{}
 		return u.Message(false, err.Error())
 	}
 
-	return u.Message(true, "Username updated")
+	return u.Message(true, "UpdateSuccess")
 }
 
 func ModifyPassword(ctx context.Context, password string) map[string]interface{} {
 	acc := GetUser(ctx.Value("user").(uint))
 	if acc == nil {
-		return u.Message(false, "Account not found")
+		return u.Message(false, "AccNotFoundError")
 	}
 
 	if len(password) < 8 || len(password) > 60 {
-		return u.Message(false, "New password out of bounds")
+		return u.Message(false, "OutOfBoundsError")
 	}
 
 	hashedPass, err := bcrypt.GenerateFromPassword([]byte(password), bcrypt.DefaultCost)
@@ -251,7 +251,7 @@ func ModifyPassword(ctx context.Context, password string) map[string]interface{}
 		return u.Message(false, err.Error())
 	}
 
-	return u.Message(true, "Password updated")
+	return u.Message(true, "UpdateSuccess")
 }
 
 func GetUser(u uint) *Account {

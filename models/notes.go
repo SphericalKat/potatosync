@@ -44,11 +44,11 @@ type Notes struct {
 func (note *Notes) SaveNote(ctx context.Context) map[string]interface{} {
 	acc := GetUser(ctx.Value("user").(uint))
 	if acc == nil {
-		return u.Message(false, "Account not found")
+		return u.Message(false, "UserNotFoundError")
 	}
 
 	if note.NoteID <= 0 {
-		return u.Message(false, "Notes must have an id")
+		return u.Message(false, "MissingNoteIdError")
 	}
 
 	note.AccountID = acc.ID
@@ -58,13 +58,13 @@ func (note *Notes) SaveNote(ctx context.Context) map[string]interface{} {
 		return u.Message(false, err.Error())
 	}
 
-	return u.Message(true, "Note successfully created")
+	return u.Message(true, "NoteCreationSuccess")
 }
 
 func ListNotes(ctx context.Context) map[string]interface{} {
 	acc := GetUser(ctx.Value("user").(uint))
 	if acc == nil {
-		return u.Message(false, "Account not found")
+		return u.Message(false, "UserNotFoundError")
 	}
 	var notes []Notes
 	GetDB().Where("account_id = ?", acc.ID).Find(&notes)
@@ -77,11 +77,11 @@ func ListNotes(ctx context.Context) map[string]interface{} {
 func DeleteNote(ctx context.Context, noteID uint) map[string]interface{} {
 	acc := GetUser(ctx.Value("user").(uint))
 	if acc == nil {
-		return u.Message(false, "Account not found")
+		return u.Message(false, "UserNotFoundError")
 	}
 
 	if noteID <= 0 {
-		return u.Message(false, "Notes must have an id")
+		return u.Message(false, "MissingNoteIdError")
 	}
 
 	note := &Notes{}
@@ -90,5 +90,5 @@ func DeleteNote(ctx context.Context, noteID uint) map[string]interface{} {
 		return u.Message(false, err.Error())
 	}
 
-	return u.Message(true, "Note deleted")
+	return u.Message(true, "NoteDeleteSuccess")
 }
