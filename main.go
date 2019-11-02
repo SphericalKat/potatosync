@@ -39,6 +39,7 @@ func main() {
 	// User acc mgmt routes
 	router.HandleFunc("/api/users/manage/username", controllers.ModifyUsername).Methods("POST")
 	router.HandleFunc("/api/users/manage/password", controllers.ModifyPassword).Methods("POST")
+	router.HandleFunc("/api/users/manage/image", controllers.SaveImage).Methods("POST")
 
 	// Notes routes
 	router.HandleFunc("/api/notes/save", controllers.CreateNote).Methods("POST")

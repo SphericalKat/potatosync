@@ -191,6 +191,61 @@ define({ "api": [
   },
   {
     "type": "post",
+    "url": "/api/users/manage/image",
+    "title": "",
+    "name": "Modify_account_s_password",
+    "group": "Authorization",
+    "permission": [
+      {
+        "name": "Logged-in users"
+      }
+    ],
+    "parameter": {
+      "fields": {
+        "Parameter": [
+          {
+            "group": "Parameter",
+            "type": "string",
+            "optional": false,
+            "field": "image_url",
+            "description": "<p>The url to the user's profile image</p>"
+          }
+        ]
+      },
+      "examples": [
+        {
+          "title": "request-example",
+          "content": "\n{\n\t\"image_url\": \"https://example.com/1234567\",\n}",
+          "type": "json"
+        }
+      ]
+    },
+    "header": {
+      "fields": {
+        "Header": [
+          {
+            "group": "Header",
+            "type": "string",
+            "optional": false,
+            "field": "Authorization",
+            "description": "<p>JWT token associated with user account</p>"
+          }
+        ]
+      },
+      "examples": [
+        {
+          "title": "Header-Example:",
+          "content": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySWQiOjV9.FTIhjfCLND1L-hvhgH9_TC_P7MbGQnjnNnFOjJL8Q1k",
+          "type": "string"
+        }
+      ]
+    },
+    "version": "0.0.0",
+    "filename": "controllers/mgmt_controller.go",
+    "groupTitle": "Authorization"
+  },
+  {
+    "type": "post",
     "url": "/api/users/manage/username",
     "title": "",
     "name": "Modify_account_s_username",

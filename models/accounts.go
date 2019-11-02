@@ -179,7 +179,7 @@ func LoginUsername(username, pass string) map[string]interface{} {
 func DeleteAccount(ctx context.Context) map[string]interface{} {
 	acc := GetUser(ctx.Value("user").(uint))
 	if acc == nil {
-		return u.Message(false, "NotFoundError")
+		return u.Message(false, "UserNotFoundError")
 	}
 
 	err := GetDB().Delete(acc).Error
@@ -235,7 +235,7 @@ func ModifyUsername(ctx context.Context, username string) map[string]interface{}
 func ModifyPassword(ctx context.Context, password string) map[string]interface{} {
 	acc := GetUser(ctx.Value("user").(uint))
 	if acc == nil {
-		return u.Message(false, "AccNotFoundError")
+		return u.Message(false, "UserNotFoundError")
 	}
 
 	if len(password) < 8 || len(password) > 60 {
@@ -253,6 +253,21 @@ func ModifyPassword(ctx context.Context, password string) map[string]interface{}
 	}
 
 	return u.Message(true, "UpdateSuccess")
+}
+
+func SaveAccImage(ctx context.Context, imageUrl string) map[string]interface{} {
+	acc := GetUser(ctx.Value("user").(uint))
+	if acc == nil {
+		return u.Message(false, "UserNotFoundError")
+	}
+
+	acc.ImageUrl = imageUrl
+	err := GetDB().Save(acc).Error
+	if err != nil {
+		return u.Message(false, err.Error())
+	}
+
+	return u.Message(true, "ImageSaveSuccess")
 }
 
 func GetUser(u uint) *Account {

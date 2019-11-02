@@ -87,3 +87,34 @@ var ModifyPassword = func(w http.ResponseWriter, r *http.Request) {
 	res := models.ModifyPassword(r.Context(), acc.Password)
 	u.Respond(w, res)
 }
+
+/**
+* @api {post} /api/users/manage/image
+* @apiName Modify account's password
+* @apiGroup Authorization
+*
+* @apiPermission Logged-in users
+*
+* @apiParam {string} image_url The url to the user's profile image
+* @apiParamExample {json} request-example
+*
+* {
+*	"image_url": "https://example.com/1234567",
+* }
+*
+* @apiHeader {string} Authorization JWT token associated with user account
+* @apiHeaderExample {string} Header-Example:
+*	eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySWQiOjV9.FTIhjfCLND1L-hvhgH9_TC_P7MbGQnjnNnFOjJL8Q1k
+*
+**/
+var SaveImage = func(w http.ResponseWriter, r *http.Request) {
+	acc := &models.Account{}
+	err := json.NewDecoder(r.Body).Decode(acc)
+	if err != nil {
+		u.Respond(w, u.Message(false, err.Error()))
+		return
+	}
+
+	res := models.SaveAccImage(r.Context(), acc.ImageUrl)
+	u.Respond(w, res)
+}
