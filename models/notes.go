@@ -19,9 +19,11 @@ package models
 
 import (
 	"context"
+
 	u "github.com/ATechnoHazard/potatonotes-api/utils"
 )
 
+// Notes Represents a note in the database
 type Notes struct {
 	NoteID          uint   `gorm:"primary_key" json:"note_id"`
 	AccountID       uint   `gorm:"column:account_id" json:"id"`
@@ -30,7 +32,7 @@ type Notes struct {
 	IsStarred       bool   `json:"is_starred"`
 	Date            int    `json:"date"`
 	Color           int    `json:"color"`
-	ImageUrl        string `json:"image_url"`
+	ImageURL        string `json:"image_url"`
 	IsList          bool   `json:"is_list"`
 	ListParseString string `json:"list_parse_string"`
 	Reminders       string `json:"reminders"`
@@ -41,6 +43,7 @@ type Notes struct {
 	IsArchived      bool   `json:"is_archived"`
 }
 
+// SaveNote Create or update a note
 func (note *Notes) SaveNote(ctx context.Context) map[string]interface{} {
 	acc := GetUser(ctx.Value("user").(uint))
 	if acc == nil {
@@ -61,6 +64,7 @@ func (note *Notes) SaveNote(ctx context.Context) map[string]interface{} {
 	return u.Message(true, "NoteCreationSuccess")
 }
 
+// ListNotes List all notes belonging to a user
 func ListNotes(ctx context.Context) map[string]interface{} {
 	acc := GetUser(ctx.Value("user").(uint))
 	if acc == nil {
@@ -74,6 +78,7 @@ func ListNotes(ctx context.Context) map[string]interface{} {
 	return res
 }
 
+// DeleteNote Delete a single note belonging to a user
 func DeleteNote(ctx context.Context, noteID uint) map[string]interface{} {
 	acc := GetUser(ctx.Value("user").(uint))
 	if acc == nil {
@@ -91,4 +96,20 @@ func DeleteNote(ctx context.Context, noteID uint) map[string]interface{} {
 	}
 
 	return u.Message(true, "NoteDeleteSuccess")
+}
+
+// DeleteAllNotes Deletes all notes belonging to a user
+func DeleteAllNotes(ctx context.Context) map[string]interface{} {
+	acc := GetUser(ctx.Value("user").(uint))
+	if acc == nil {
+		return u.Message(false, "UserNotFoundError")
+	}
+
+	note := &Notes{}
+	err := GetDB().Where("account_id = ?").Delete(note).Error
+	if err != nil {
+		return u.Message(false, err.Error())
+	}
+
+	return u.Message(true, "NotesDeleteSuccess")
 }

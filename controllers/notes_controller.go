@@ -19,9 +19,10 @@ package controllers
 
 import (
 	"encoding/json"
+	"net/http"
+
 	"github.com/ATechnoHazard/potatonotes-api/models"
 	u "github.com/ATechnoHazard/potatonotes-api/utils"
-	"net/http"
 )
 
 /**
@@ -126,5 +127,22 @@ var DeleteNote = func(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	res := models.DeleteNote(r.Context(), note.NoteID)
+	u.Respond(w, res)
+}
+
+/**
+* @api {post} /api/notes/deleteall
+* @apiName Delete all saved notes for a user
+* @apiGroup Notes
+*
+* @apiPermission Logged-in users
+*
+* @apiHeader {string} Authorization JWT token associated with user account
+* @apiHeaderExample {string} Header-Example:
+*	eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySWQiOjV9.FTIhjfCLND1L-hvhgH9_TC_P7MbGQnjnNnFOjJL8Q1k
+*
+**/
+var DeleteAllNotes = func(w http.ResponseWriter, r *http.Request) {
+	res := models.DeleteAllNotes(r.Context())
 	u.Respond(w, res)
 }

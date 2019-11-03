@@ -19,28 +19,30 @@ package models
 
 import (
 	"context"
+	"log"
+	"os"
+	"strings"
+
 	u "github.com/ATechnoHazard/potatonotes-api/utils"
 	"github.com/dgrijalva/jwt-go"
 	"github.com/jinzhu/gorm"
 	"golang.org/x/crypto/bcrypt"
-	"log"
-	"os"
-	"strings"
 )
 
+// Token represents a JWT token
 type Token struct {
-	UserId uint
+	UserID uint
 	jwt.StandardClaims
 }
 
-// Represents a user account
+// Account Represents a user account
 type Account struct {
 	gorm.Model
 	Email    string  `json:"email"`
 	Username string  `json:"username"`
 	Password string  `json:"password"`
 	Token    string  `gorm:"-" json:"token"`
-	ImageUrl string  `json:"image_url"`
+	ImageURL string  `json:"image_url"`
 	Notes    []Notes `gorm:"foreignkey:AccountID" json:"-"`
 }
 
@@ -80,6 +82,7 @@ func (acc *Account) Validate() (map[string]interface{}, bool) {
 	return u.Message(true, "ValidationSuccess"), true
 }
 
+// Create a new user account
 func (acc *Account) Create() map[string]interface{} {
 	if res, ok := acc.Validate(); !ok {
 		return res
@@ -98,7 +101,7 @@ func (acc *Account) Create() map[string]interface{} {
 	}
 
 	// create a jwt token for the newly registered account
-	tk := &Token{UserId: acc.ID}
+	tk := &Token{UserID: acc.ID}
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, tk)
 	tokenString, err := token.SignedString([]byte(os.Getenv("token_password")))
 	if err != nil {
@@ -113,6 +116,7 @@ func (acc *Account) Create() map[string]interface{} {
 	return response
 }
 
+// Login in to an existing account
 func Login(email, pass string) map[string]interface{} {
 	acc := &Account{}
 	err := GetDB().Where("email = ?", email).First(acc).Error
@@ -132,7 +136,7 @@ func Login(email, pass string) map[string]interface{} {
 	acc.Password = ""
 
 	// create jwt token
-	tk := &Token{UserId: acc.ID}
+	tk := &Token{UserID: acc.ID}
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, tk)
 	tokenString, err := token.SignedString([]byte(os.Getenv("token_password")))
 	if err != nil {
@@ -144,6 +148,7 @@ func Login(email, pass string) map[string]interface{} {
 	return res
 }
 
+// LoginUsername login with a username instead of an email address
 func LoginUsername(username, pass string) map[string]interface{} {
 	acc := &Account{}
 	err := GetDB().Where("username = ?", username).First(acc).Error
@@ -163,7 +168,7 @@ func LoginUsername(username, pass string) map[string]interface{} {
 	acc.Password = ""
 
 	// create jwt token
-	tk := &Token{UserId: acc.ID}
+	tk := &Token{UserID: acc.ID}
 
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, tk)
 	tokenString, err := token.SignedString([]byte(os.Getenv("token_password")))
@@ -176,6 +181,7 @@ func LoginUsername(username, pass string) map[string]interface{} {
 	return res
 }
 
+// DeleteAccount delete an existing account
 func DeleteAccount(ctx context.Context) map[string]interface{} {
 	acc := GetUser(ctx.Value("user").(uint))
 	if acc == nil {
@@ -190,6 +196,7 @@ func DeleteAccount(ctx context.Context) map[string]interface{} {
 	return u.Message(true, "DeleteSuccess")
 }
 
+// AccInfo get details about an existing account
 func AccInfo(ctx context.Context) map[string]interface{} {
 	acc := GetUser(ctx.Value("user").(uint))
 	if acc == nil {
@@ -201,6 +208,7 @@ func AccInfo(ctx context.Context) map[string]interface{} {
 	return res
 }
 
+// ModifyUsername modify the username for an already existing account
 func ModifyUsername(ctx context.Context, username string) map[string]interface{} {
 	acc := GetUser(ctx.Value("user").(uint))
 	if acc == nil {
@@ -232,6 +240,7 @@ func ModifyUsername(ctx context.Context, username string) map[string]interface{}
 	return u.Message(true, "UpdateSuccess")
 }
 
+// ModifyPassword modify the password for an already existing account
 func ModifyPassword(ctx context.Context, password string) map[string]interface{} {
 	acc := GetUser(ctx.Value("user").(uint))
 	if acc == nil {
@@ -255,13 +264,14 @@ func ModifyPassword(ctx context.Context, password string) map[string]interface{}
 	return u.Message(true, "UpdateSuccess")
 }
 
-func SaveAccImage(ctx context.Context, imageUrl string) map[string]interface{} {
+// SaveAccImage save the image url for the account profile picture
+func SaveAccImage(ctx context.Context, imageURL string) map[string]interface{} {
 	acc := GetUser(ctx.Value("user").(uint))
 	if acc == nil {
 		return u.Message(false, "UserNotFoundError")
 	}
 
-	acc.ImageUrl = imageUrl
+	acc.ImageURL = imageURL
 	err := GetDB().Save(acc).Error
 	if err != nil {
 		return u.Message(false, err.Error())
@@ -270,6 +280,7 @@ func SaveAccImage(ctx context.Context, imageUrl string) map[string]interface{} {
 	return u.Message(true, "ImageSaveSuccess")
 }
 
+// GetUser get an existing user account
 func GetUser(u uint) *Account {
 	acc := &Account{}
 	GetDB().Where("id = ?", u).First(acc)

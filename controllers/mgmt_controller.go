@@ -115,6 +115,6 @@ var SaveImage = func(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	res := models.SaveAccImage(r.Context(), acc.ImageUrl)
+	res := models.SaveAccImage(r.Context(), acc.ImageURL)
 	u.Respond(w, res)
 }

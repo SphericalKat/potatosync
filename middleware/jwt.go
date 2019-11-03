@@ -19,13 +19,15 @@ package middleware
 
 import (
 	"context"
+	"net/http"
+	"os"
+
 	"github.com/ATechnoHazard/potatonotes-api/models"
 	u "github.com/ATechnoHazard/potatonotes-api/utils"
 	"github.com/dgrijalva/jwt-go"
-	"net/http"
-	"os"
 )
 
+// JwtAuthentication middleware for authorizing endpoints
 var JwtAuthentication = func(next http.Handler) http.Handler { // jwt auth middleware function
 
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
@@ -76,7 +78,7 @@ var JwtAuthentication = func(next http.Handler) http.Handler { // jwt auth middl
 
 		//Everything went well, proceed with the request and set the caller to the user retrieved from the parsed token
 		//fmt.Sprintf("User %", tk.Username) //Useful for monitoring
-		ctx := context.WithValue(r.Context(), "user", tk.UserId)
+		ctx := context.WithValue(r.Context(), "user", tk.UserID)
 		r = r.WithContext(ctx)
 		next.ServeHTTP(w, r) //proceed in the middleware chain!
 	})

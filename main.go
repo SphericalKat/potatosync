@@ -18,12 +18,13 @@
 package main
 
 import (
-	"github.com/ATechnoHazard/potatonotes-api/controllers"
-	"github.com/ATechnoHazard/potatonotes-api/middleware"
-	"github.com/gorilla/mux"
 	"log"
 	"net/http"
 	"os"
+
+	"github.com/ATechnoHazard/potatonotes-api/controllers"
+	"github.com/ATechnoHazard/potatonotes-api/middleware"
+	"github.com/gorilla/mux"
 )
 
 func main() {
@@ -45,6 +46,7 @@ func main() {
 	router.HandleFunc("/api/notes/save", controllers.CreateNote).Methods("POST")
 	router.HandleFunc("/api/notes/list", controllers.ListNotes).Methods("GET")
 	router.HandleFunc("/api/notes/delete", controllers.DeleteNote).Methods("POST")
+	router.HandleFunc("/api/notes/deleteall", controllers.DeleteAllNotes).Methods("POST")
 
 	port := os.Getenv("PORT")
 	if port == "" {
