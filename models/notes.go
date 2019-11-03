@@ -107,7 +107,7 @@ func DeleteAllNotes(ctx context.Context) map[string]interface{} {
 	}
 
 	note := &Notes{}
-	err := GetDB().Where("account_id = ?").Delete(note).Error
+	err := GetDB().Where("account_id = ?", acc.ID).Delete(note).Error
 	if err != nil {
 		return u.Message(false, err.Error())
 	}
