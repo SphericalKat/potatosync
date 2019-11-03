@@ -550,6 +550,41 @@
     "groupTitle": "Notes"
   },
   {
+    "type": "post",
+    "url": "/api/notes/deleteall",
+    "title": "",
+    "name": "Delete_all_saved_notes_for_a_user",
+    "group": "Notes",
+    "permission": [
+      {
+        "name": "Logged-in users"
+      }
+    ],
+    "header": {
+      "fields": {
+        "Header": [
+          {
+            "group": "Header",
+            "type": "string",
+            "optional": false,
+            "field": "Authorization",
+            "description": "<p>JWT token associated with user account</p>"
+          }
+        ]
+      },
+      "examples": [
+        {
+          "title": "Header-Example:",
+          "content": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySWQiOjV9.FTIhjfCLND1L-hvhgH9_TC_P7MbGQnjnNnFOjJL8Q1k",
+          "type": "string"
+        }
+      ]
+    },
+    "version": "0.0.0",
+    "filename": "controllers/notes_controller.go",
+    "groupTitle": "Notes"
+  },
+  {
     "type": "get",
     "url": "/api/notes/list",
     "title": "",
