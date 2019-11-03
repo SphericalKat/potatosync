@@ -19,28 +19,29 @@ package models
 
 import (
 	"context"
+	"time"
 
 	u "github.com/ATechnoHazard/potatonotes-api/utils"
 )
 
 // Notes Represents a note in the database
 type Notes struct {
-	NoteID          uint   `gorm:"primary_key" json:"note_id"`
-	AccountID       uint   `gorm:"column:account_id" json:"id"`
-	Title           string `json:"title"`
-	Content         string `json:"content"`
-	IsStarred       bool   `json:"is_starred"`
-	Date            int    `json:"date"`
-	Color           int    `json:"color"`
-	ImageURL        string `json:"image_url"`
-	IsList          bool   `json:"is_list"`
-	ListParseString string `json:"list_parse_string"`
-	Reminders       string `json:"reminders"`
-	HideContent     bool   `json:"hide_content"`
-	Pin             string `json:"pin"`
-	Password        string `json:"password"`
-	IsDeleted       bool   `json:"is_deleted"`
-	IsArchived      bool   `json:"is_archived"`
+	NoteID          uint      `gorm:"primary_key" json:"note_id"`
+	AccountID       uint      `gorm:"column:account_id" json:"id"`
+	Title           string    `json:"title"`
+	Content         string    `json:"content"`
+	IsStarred       bool      `json:"is_starred"`
+	Date            time.Time `json:"date"`
+	Color           int       `json:"color"`
+	ImageURL        string    `json:"image_url"`
+	IsList          bool      `json:"is_list"`
+	ListParseString string    `json:"list_parse_string"`
+	Reminders       string    `json:"reminders"`
+	HideContent     bool      `json:"hide_content"`
+	Pin             string    `json:"pin"`
+	Password        string    `json:"password"`
+	IsDeleted       bool      `json:"is_deleted"`
+	IsArchived      bool      `json:"is_archived"`
 }
 
 // SaveNote Create or update a note
