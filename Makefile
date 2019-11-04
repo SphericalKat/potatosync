@@ -11,7 +11,10 @@ dep:
 
 .PHONY: img-build
 img-build:
-	docker image build -t ATechnoHazard/potatosync .
+	docker image build -t atechnohazard/potatosync .
+
+img-push:
+	docker push atechnohazard/potatosync:latest
 
 .PHONY: docs
 docs:
