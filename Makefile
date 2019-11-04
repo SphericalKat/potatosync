@@ -2,7 +2,7 @@
 build:
 	mkdir bin || echo bin already exists
 	@echo building artifacts
-	go build -v -o ./bin/potatosync . && echo DONE
+	@GO111MODULE=on GOOS=linux CGO_ENABLED=0 go build -v -a -installsuffix cgo -o ./bin/potatosync . && echo DONE
 
 .PHONY: dep
 dep:
