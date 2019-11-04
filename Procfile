@@ -1,1 +1,1 @@
-web: bin/potatonotes-api
+web: bin/potatosync
