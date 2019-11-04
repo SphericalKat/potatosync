@@ -1,7 +1,5 @@
-FROM golang
+FROM scratch
 
-WORKDIR /go/src/github.com/ATechnoHazard/potatonotes-api
+COPY ./bin/potatosync /
 
-COPY . .
-
-ENTRYPOINT ["go", "run", "."]
+ENTRYPOINT ["./potatosync"]
