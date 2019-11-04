@@ -22,8 +22,8 @@ import (
 	"net/http"
 	"os"
 
-	"github.com/ATechnoHazard/potatonotes-api/models"
-	u "github.com/ATechnoHazard/potatonotes-api/utils"
+	"github.com/ATechnoHazard/potatosync/models"
+	u "github.com/ATechnoHazard/potatosync/utils"
 	"github.com/dgrijalva/jwt-go"
 )
 

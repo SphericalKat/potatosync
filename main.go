@@ -22,8 +22,8 @@ import (
 	"net/http"
 	"os"
 
-	"github.com/ATechnoHazard/potatonotes-api/controllers"
-	"github.com/ATechnoHazard/potatonotes-api/middleware"
+	"github.com/ATechnoHazard/potatosync/controllers"
+	"github.com/ATechnoHazard/potatosync/middleware"
 	"github.com/gorilla/mux"
 )
 

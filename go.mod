@@ -1,4 +1,4 @@
-module github.com/ATechnoHazard/potatonotes-api
+module github.com/ATechnoHazard/potatosync
 
 go 1.13
 

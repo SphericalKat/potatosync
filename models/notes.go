@@ -21,7 +21,7 @@ import (
 	"context"
 	"time"
 
-	u "github.com/ATechnoHazard/potatonotes-api/utils"
+	u "github.com/ATechnoHazard/potatosync/utils"
 )
 
 // Notes Represents a note in the database

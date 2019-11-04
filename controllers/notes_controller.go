@@ -21,8 +21,8 @@ import (
 	"encoding/json"
 	"net/http"
 
-	"github.com/ATechnoHazard/potatonotes-api/models"
-	u "github.com/ATechnoHazard/potatonotes-api/utils"
+	"github.com/ATechnoHazard/potatosync/models"
+	u "github.com/ATechnoHazard/potatosync/utils"
 )
 
 /**

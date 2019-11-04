@@ -23,7 +23,7 @@ import (
 	"os"
 	"strings"
 
-	u "github.com/ATechnoHazard/potatonotes-api/utils"
+	u "github.com/ATechnoHazard/potatosync/utils"
 	"github.com/dgrijalva/jwt-go"
 	"github.com/jinzhu/gorm"
 	"golang.org/x/crypto/bcrypt"
