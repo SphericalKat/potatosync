@@ -35,5 +35,5 @@ jobs:
           DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
         run: |
           make img-build
-          docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD"
-          make img-push
+          # docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD"
+          # make img-push
