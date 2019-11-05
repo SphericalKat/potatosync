@@ -9,7 +9,7 @@ COPY . .
 
 RUN go get -v -t -d
 
-RUN go build GO111MODULE=on GOOS=linux CGO_ENABLED=0 go build -v -a -installsuffix cgo -o /go/bin/potatosync
+RUN GO111MODULE=on GOOS=linux CGO_ENABLED=0 go build -v -a -installsuffix cgo -o /go/bin/potatosync
 
 # Stage 2: Copy binary to scratch 
 FROM scratch

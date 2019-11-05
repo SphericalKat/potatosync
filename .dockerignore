@@ -1,1 +1,10 @@
 .env
+*.md
+apidoc.json
+LICENSE
+Procfile
+sample.env
+.idea
+.gitignore
+.git
+.cache
