@@ -1,0 +1,42 @@
+name: CI
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+    branches:
+      - master
+
+jobs:
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Set up Go
+        uses: actions/setup-go@v1
+        with:
+          go-version: 1.13
+        id: go
+
+      - name: Checkout repo
+        uses: actions/checkout@v1
+
+      - name: Get dependencies
+        run: |
+          go get -v -t -d
+      - name: Build
+        run: |
+          make build
+      
+      - name: Setup docker
+        uses: docker-practice/actions-setup-docker@0.0.1
+
+      - name: Build and push docker image
+        env:
+          DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+          DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+        run: |
+          make img-build
+          docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD"
+          make img-push
