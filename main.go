@@ -33,7 +33,7 @@ func main() {
 	router.Use(middleware.JwtAuthentication) // use our jwt middleware
 
 	// Health check
-	router.HandleFunc("/", healthCheck).Methods("GET")
+	router.HandleFunc("/api/healthcheck", healthCheck).Methods("GET")
 
 	// Auth routes
 	router.HandleFunc("/api/users/new", controllers.CreateAccount).Methods("POST")
