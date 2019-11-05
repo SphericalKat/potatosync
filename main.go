@@ -24,12 +24,16 @@ import (
 
 	"github.com/ATechnoHazard/potatosync/controllers"
 	"github.com/ATechnoHazard/potatosync/middleware"
+	u "github.com/ATechnoHazard/potatosync/utils"
 	"github.com/gorilla/mux"
 )
 
 func main() {
 	router := mux.NewRouter()
 	router.Use(middleware.JwtAuthentication) // use our jwt middleware
+
+	// Health check
+	router.HandleFunc("/", healthCheck).Methods("GET")
 
 	// Auth routes
 	router.HandleFunc("/api/users/new", controllers.CreateAccount).Methods("POST")
@@ -59,4 +63,8 @@ func main() {
 	if err != nil {
 		log.Fatalln(err)
 	}
+}
+
+func healthCheck(w http.ResponseWriter, r *http.Request) {
+	u.Respond(w, u.Message(true, "Health check succeeded, v0.1.0"))
 }
