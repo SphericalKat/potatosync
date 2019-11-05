@@ -1,6 +1,7 @@
 # Potatosync
 This is a custom API for supporting the PotatoNotes app, which can be found [here](https://github.com/HrX03/PotatoNotes/) on GitHub, and can be downloaded from the play store. If you feel like contributing, feel free to send a PR our way.
 
+
 [![Actions Status](https://github.com/ATechnoHazard/potatosync/workflows/CI/badge.svg)](https://github.com/ATechnoHazard/potatosync/actions) ![](https://img.shields.io/docker/pulls/atechnohazard/potatosync)
 ## Building
 The project has a Makefile conveniently set up for building the project and its docker image. We use scratch containers and add only the binary, instead of building the binary inside the container. This is done to reduce image size.
@@ -20,3 +21,6 @@ To build the docker image with the binary, run `make img-build`
 
 ## Contributing
 We are grateful for any and all contributions, so feel free to send a PR our way! Just remember to `gofmt` often, and document as much as you can.
+
+## Links
+<a href='https://play.google.com/store/apps/details?id=com.potatoproject.notes&hl=en&pcampaignid=pcampaignidMKT-Other-global-all-co-prtnr-py-PartBadge-Mar2515-1'><img alt='Get it on Google Play' src='https://play.google.com/intl/en_us/badges/static/images/badges/en_badge_web_generic.png'/></a>
