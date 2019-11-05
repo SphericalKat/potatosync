@@ -32,8 +32,8 @@ var JwtAuthentication = func(next http.Handler) http.Handler { // jwt auth middl
 
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 
-		notAuth := []string{"/api/users/new", "/api/users/login", "/healthcheck"} //List of endpoints that doesn't require auth
-		requestPath := r.URL.Path                                                 //current request path
+		notAuth := []string{"/api/users/new", "/api/users/login", "/api/healthcheck"} //List of endpoints that doesn't require auth
+		requestPath := r.URL.Path                                                     //current request path
 
 		//check if request does not need authentication, serve the request if it doesn't need it
 		for _, value := range notAuth {
