@@ -43,13 +43,14 @@ func init() {
 	dbName := os.Getenv("db_name")
 	dbHost := os.Getenv("db_host")
 	dbType := os.Getenv("db_type")
+	dbSSL := os.Getenv("db_ssl")
 
 	if _, ok := os.LookupEnv("HEROKU"); ok {
 
 	}
 
-	dbURI := fmt.Sprintf("host=%s user=%s dbname=%s sslmode=require password=%s", dbHost, username, dbName,
-		password) //Build the connection string
+	dbURI := fmt.Sprintf("host=%s user=%s dbname=%s sslmode=%s password=%s", dbHost, username, dbName,
+		dbSSL ,password) //Build the connection string
 
 	conn, err := gorm.Open(dbType, dbURI)
 	if err != nil {
