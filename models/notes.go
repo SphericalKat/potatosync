@@ -30,18 +30,18 @@ type Notes struct {
 	AccountID       uint      `gorm:"column:account_id" json:"id"`
 	Title           string    `json:"title"`
 	Content         string    `json:"content"`
-	IsStarred       bool      `json:"is_starred"`
-	Date            time.Time `json:"date"`
-	Color           int       `json:"color"`
 	ImageURL        string    `json:"image_url"`
-	IsList          bool      `json:"is_list"`
 	ListParseString string    `json:"list_parse_string"`
 	Reminders       string    `json:"reminders"`
+	Date            time.Time `json:"date"`
+	Color           int       `json:"color"`
 	HideContent     bool      `json:"hide_content"`
-	Pin             string    `json:"pin"`
-	Password        string    `json:"password"`
 	IsDeleted       bool      `json:"is_deleted"`
 	IsArchived      bool      `json:"is_archived"`
+	IsList          bool      `json:"is_list"`
+	IsStarred       bool      `json:"is_starred"`
+	Pin             string    `json:"pin"`
+	Password        string    `json:"password"`
 }
 
 // SaveNote Create or update a note
@@ -51,7 +51,7 @@ func (note *Notes) SaveNote(ctx context.Context) map[string]interface{} {
 		return u.Message(false, "UserNotFoundError")
 	}
 
-	if note.NoteID <= 0 {
+	if note.NoteID == 0 {
 		return u.Message(false, "MissingNoteIdError")
 	}
 
@@ -86,7 +86,7 @@ func DeleteNote(ctx context.Context, noteID uint) map[string]interface{} {
 		return u.Message(false, "UserNotFoundError")
 	}
 
-	if noteID <= 0 {
+	if noteID == 0 {
 		return u.Message(false, "MissingNoteIdError")
 	}
 

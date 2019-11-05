@@ -96,7 +96,7 @@ func (acc *Account) Create() map[string]interface{} {
 
 	GetDB().Create(acc)
 
-	if acc.ID <= 0 {
+	if acc.ID == 0 {
 		return u.Message(false, "DbConnectionError")
 	}
 
