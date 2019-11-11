@@ -21,7 +21,9 @@ import (
 	"fmt"
 	"log"
 	"os"
+	"time"
 
+	u "github.com/ATechnoHazard/potatosync/utils"
 	"github.com/jinzhu/gorm"
 	_ "github.com/jinzhu/gorm/dialects/postgres" // import since we require the postgres dialect
 	"github.com/joho/godotenv"
@@ -62,4 +64,31 @@ func init() {
 //GetDB returns a handle to the DB object
 func GetDB() *gorm.DB {
 	return db
+}
+
+func Stats() map[string]interface{} {
+	userCount, notesCount, recentUsers := 0, 0, 0
+
+	res := u.Message(true, "success")
+
+	err := GetDB().Model(&Account{}).Count(&userCount).Error
+	if err != nil {
+		return u.Message(false, err.Error())
+	}
+	res["user_count"] = userCount
+
+	err = GetDB().Model(&Notes{}).Count(&notesCount).Error
+	if err != nil {
+		return u.Message(false, err.Error())
+	}
+	res["notes_count"] = notesCount
+
+	yesterday := time.Now().AddDate(0, 0, -1) // Get yesterday's time
+	err = GetDB().Model(&Account{}).Where("created_at >= ?", yesterday).Count(&recentUsers).Error
+	if err != nil {
+		return u.Message(false, err.Error())
+	}
+	res["recent_users"] = recentUsers
+
+	return res
 }

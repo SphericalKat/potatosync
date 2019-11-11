@@ -45,7 +45,7 @@ import (
 *	eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySWQiOjV9.FTIhjfCLND1L-hvhgH9_TC_P7MbGQnjnNnFOjJL8Q1k
 *
 **/
-var ModifyUsername = func(w http.ResponseWriter, r *http.Request) {
+func ModifyUsername(w http.ResponseWriter, r *http.Request) {
 	acc := &models.Account{}
 	err := json.NewDecoder(r.Body).Decode(acc)
 	if err != nil {
@@ -76,7 +76,7 @@ var ModifyUsername = func(w http.ResponseWriter, r *http.Request) {
 *	eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySWQiOjV9.FTIhjfCLND1L-hvhgH9_TC_P7MbGQnjnNnFOjJL8Q1k
 *
 **/
-var ModifyPassword = func(w http.ResponseWriter, r *http.Request) {
+func ModifyPassword(w http.ResponseWriter, r *http.Request) {
 	acc := &models.Account{}
 	err := json.NewDecoder(r.Body).Decode(acc)
 	if err != nil {
@@ -107,7 +107,7 @@ var ModifyPassword = func(w http.ResponseWriter, r *http.Request) {
 *	eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySWQiOjV9.FTIhjfCLND1L-hvhgH9_TC_P7MbGQnjnNnFOjJL8Q1k
 *
 **/
-var SaveImage = func(w http.ResponseWriter, r *http.Request) {
+func SaveImage(w http.ResponseWriter, r *http.Request) {
 	acc := &models.Account{}
 	err := json.NewDecoder(r.Body).Decode(acc)
 	if err != nil {
@@ -116,5 +116,11 @@ var SaveImage = func(w http.ResponseWriter, r *http.Request) {
 	}
 
 	res := models.SaveAccImage(r.Context(), acc.ImageURL)
+	u.Respond(w, res)
+}
+
+
+func GetStats(w http.ResponseWriter, r *http.Request) {
+	res := models.Stats()
 	u.Respond(w, res)
 }

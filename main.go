@@ -32,8 +32,9 @@ func main() {
 	router := mux.NewRouter()
 	router.Use(middleware.JwtAuthentication) // use our jwt middleware
 
-	// Health check
+	// Health checks and stats
 	router.HandleFunc("/api/healthcheck", healthCheck).Methods("GET")
+	router.HandleFunc("/api/stats", controllers.GetStats).Methods("GET")
 
 	// Auth routes
 	router.HandleFunc("/api/users/new", controllers.CreateAccount).Methods("POST")
