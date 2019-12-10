@@ -119,7 +119,6 @@ func SaveImage(w http.ResponseWriter, r *http.Request) {
 	u.Respond(w, res)
 }
 
-
 func GetStats(w http.ResponseWriter, r *http.Request) {
 	res := models.Stats()
 	u.Respond(w, res)

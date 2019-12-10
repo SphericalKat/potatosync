@@ -4,5 +4,5 @@
   "description": "A sync API for PotatoNotes",
   "title": "PotatoSync",
   "groups": ["Authorization", "Notes"],
-  "url" : "https://localhost:4000"
+  "url" : "https://sync.potatoproject.co"
 }
