@@ -26,10 +26,13 @@ import (
 	"github.com/ATechnoHazard/potatosync/middleware"
 	u "github.com/ATechnoHazard/potatosync/utils"
 	"github.com/gorilla/mux"
+	"github.com/rs/cors"
 )
 
 func main() {
 	router := mux.NewRouter()
+	corsMiddleware := cors.Default().Handler(router)
+
 	router.Use(middleware.JwtAuthentication) // use our jwt middleware
 
 	// Health checks and stats
@@ -60,7 +63,7 @@ func main() {
 
 	log.Printf("Listening on port %s\n", port)
 
-	err := http.ListenAndServe(":"+port, router) // launch the middleware, visit localhost:4000/api
+	err := http.ListenAndServe(":"+port, corsMiddleware) // launch the middleware, visit localhost:4000/api
 	if err != nil {
 		log.Fatalln(err)
 	}
