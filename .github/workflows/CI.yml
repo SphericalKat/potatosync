@@ -28,10 +28,10 @@ jobs:
       
       - name: Setup docker
         uses: docker-practice/actions-setup-docker@0.0.1
+      - name: Docker Buildx
+        uses: crazy-max/ghaction-docker-buildx@v1.0.5
 
       - name: Build and push docker image
-        runs:
-          using: "registry.gitlab.com/ericvh/docker-buildx-qemu"
         env:
           DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
           DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
