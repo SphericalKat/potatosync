@@ -19,3 +19,12 @@ img-push:
 .PHONY: docs
 docs:
 	apidoc -i controllers -o docs
+
+setup-buildx:
+    update-binfmts --enable
+    docker buildx create --driver docker-container --use
+    docker buildx inspect --bootstrap
+    docker buildx ls
+
+img-build-arm32
+    docker buildx build --platform linux/arm --progress plain --pull -t "atechnohazard/potatosync" .
