@@ -37,6 +37,6 @@ jobs:
           DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
         run: |
           make setup-buildx
-          make img-build-arm32
+          make img-buildx
           # docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD"
           # make img-push

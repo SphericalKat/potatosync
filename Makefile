@@ -27,6 +27,6 @@ setup-buildx:
 	docker buildx inspect --bootstrap
 	docker buildx ls
 
-.PHONY: img-build-arm32
-img-build-arm32:
-	docker buildx build --platform linux/arm --progress plain --pull -t "atechnohazard/potatosync" .
+.PHONY: img-buildx
+img-buildx:
+	docker buildx build --platform linux/arm,linux/amd64,linux/x86 --progress plain --pull -t "atechnohazard/potatosync" .
