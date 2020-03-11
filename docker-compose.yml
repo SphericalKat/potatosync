@@ -3,6 +3,8 @@ services:
   db:
     image: postgres
     restart: always
+    networks:
+      - potatonotes
     environment:
       POSTGRES_USER: potatonotes
       POSTGRES_DB: potatonotes
@@ -13,6 +15,8 @@ services:
   api:
     image: atechnohazard/potatosync:latest
     restart: on-failure
+    networks:
+      - potatonotes
     depends_on:
       - db
     environment:
@@ -26,6 +30,9 @@ services:
       db_ssl: disable
     ports:
     - 4000:4000
+
+networks:
+  potatonotes:
 
 volumes:
   db-data:
