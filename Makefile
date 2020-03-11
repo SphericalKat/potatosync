@@ -29,4 +29,4 @@ setup-buildx:
 
 .PHONY: img-buildx
 img-buildx:
-	docker buildx build --platform linux/arm,linux/arm64,linux/amd64 --progress plain --pull -t "atechnohazard/potatosync" .
+	docker buildx build --platform linux/arm,linux/arm64,linux/amd64 --progress plain --pull -t "atechnohazard/potatosync" --push .

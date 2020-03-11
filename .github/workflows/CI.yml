@@ -1,7 +1,7 @@
 name: CI
 on:
   push:
-    branches:
+    branches: 
       - master
 
 jobs:
@@ -22,12 +22,14 @@ jobs:
       - name: Get dependencies
         run: |
           go get -v -t -d
+          
       - name: Build
         run: |
           make build
       
       - name: Setup docker
         uses: docker-practice/actions-setup-docker@0.0.1
+        
       - name: Docker Buildx
         uses: crazy-max/ghaction-docker-buildx@v1.0.5
 
@@ -36,7 +38,9 @@ jobs:
           DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
           DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
         run: |
+          echo Logging Into Docker
+          docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD"
+          echo Installing BuildX
           make setup-buildx
+          echo Building Containers and Publishing them
           make img-buildx
-          # docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD"
-          # make img-push
