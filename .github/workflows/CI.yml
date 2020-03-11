@@ -1,6 +1,8 @@
 name: CI
 on:
   push:
+    branches: 
+      - master
 
 jobs:
   build:
@@ -20,12 +22,14 @@ jobs:
       - name: Get dependencies
         run: |
           go get -v -t -d
+          
       - name: Build
         run: |
           make build
       
       - name: Setup docker
         uses: docker-practice/actions-setup-docker@0.0.1
+        
       - name: Docker Buildx
         uses: crazy-max/ghaction-docker-buildx@v1.0.5
 
@@ -40,4 +44,3 @@ jobs:
           make setup-buildx
           echo Building Containers and Publishing them
           make img-buildx
-          # make img-push
