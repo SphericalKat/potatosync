@@ -26,6 +26,7 @@ setup-buildx:
 	docker buildx create --driver docker-container --use
 	docker buildx inspect --bootstrap
 	docker buildx ls
+	docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD"
 
 .PHONY: img-buildx
 img-buildx:
