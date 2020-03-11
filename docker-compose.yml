@@ -28,6 +28,7 @@ services:
       db_port: 5432
       db_type: postgres
       db_ssl: disable
+      token_password: thisIsTheJwtSecretPassword
     ports:
     - 4000:4000
 
