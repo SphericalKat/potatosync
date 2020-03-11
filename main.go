@@ -27,11 +27,14 @@ import (
 	u "github.com/ATechnoHazard/potatosync/utils"
 	"github.com/gorilla/mux"
 	"github.com/rs/cors"
+	"github.com/urfave/negroni"
 )
 
 func main() {
 	router := mux.NewRouter()
 	corsMiddleware := cors.Default().Handler(router)
+	n := negroni.Classic()
+	n.UseHandler(corsMiddleware)
 
 	router.Use(middleware.JwtAuthentication) // use our jwt middleware
 
@@ -63,7 +66,7 @@ func main() {
 
 	log.Printf("Listening on port %s\n", port)
 
-	err := http.ListenAndServe(":"+port, corsMiddleware) // launch the middleware, visit localhost:4000/api
+	err := http.ListenAndServe(":"+port, n)
 	if err != nil {
 		log.Fatalln(err)
 	}
