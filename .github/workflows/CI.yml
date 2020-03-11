@@ -36,5 +36,5 @@ jobs:
         run: |
           make setup-buildx
           make img-buildx
-          # docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD"
-           make img-push
+          docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD"
+          # make img-push
