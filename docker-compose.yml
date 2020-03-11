@@ -1,0 +1,31 @@
+version: '3'
+services:
+  db:
+    image: postgres
+    restart: always
+    environment:
+      POSTGRES_USER: potatonotes
+      POSTGRES_DB: potatonotes
+      POSTGRES_PASSWORD: potatonotes
+    volumes:
+    - db-data:/var/lib/postgresql/data
+
+  api:
+    image: atechnohazard/potatosync:latest
+    restart: on-failure
+    depends_on:
+      - db
+    environment:
+      HEROKU: set
+      db_user: potatonotes
+      db_pass: potatonotes
+      db_name: potatonotes
+      db_host: db
+      db_port: 5432
+      db_type: postgres
+      db_ssl: disable
+    ports:
+    - 4000:4000
+
+volumes:
+  db-data:
