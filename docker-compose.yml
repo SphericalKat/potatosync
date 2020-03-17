@@ -5,10 +5,8 @@ services:
     restart: always
     networks:
       - potatonotes
-    environment:
-      POSTGRES_USER: notes
-      POSTGRES_DB: potatonotes
-      POSTGRES_PASSWORD: notes
+    env_file:
+      - docker.env
     volumes:
     - db-data:/var/lib/postgresql/data
 
@@ -20,7 +18,7 @@ services:
     networks:
       - potatonotes
     env_file:
-      - ./.env
+      - ./docker.env
     ports:
       - 4000:4000
 
