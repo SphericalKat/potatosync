@@ -52,7 +52,7 @@ func init() {
 
 	conn, err := gorm.Open(dbType, dbURI)
 	if err != nil {
-		fmt.Print(err)
+		log.Fatalln(err)
 	}
 
 	db = conn
