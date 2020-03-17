@@ -34,9 +34,11 @@ var db *gorm.DB //database
 func init() {
 
 	if _, ok := os.LookupEnv("HEROKU"); !ok {
-		err := godotenv.Load() //Load .env file
-		if err != nil {
-			log.Fatalln(err)
+		if fileExists(".env") {
+			err := godotenv.Load() //Load .env file
+			if err != nil {
+				log.Fatalln(err)
+			}
 		}
 	}
 
@@ -59,6 +61,14 @@ func init() {
 	log.Println("Auto-migrating db")
 	db.AutoMigrate(&Account{}, &Notes{}) //Database migration
 	log.Println("Auto-migration complete")
+}
+
+func fileExists(filename string) bool {
+	info, err := os.Stat(filename)
+	if os.IsNotExist(err) {
+		return false
+	}
+	return !info.IsDir()
 }
 
 //GetDB returns a handle to the DB object
