@@ -16,4 +16,6 @@ FROM scratch
 
 COPY --from=builder /go/bin/potatosync /go/bin/potatosync
 
+WORKDIR /go/bin
+
 ENTRYPOINT ["/go/bin/potatosync"]

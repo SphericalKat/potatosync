@@ -1,0 +1,31 @@
+version: '3'
+services:
+  db:
+    image: postgres
+    restart: always
+    networks:
+      - potatonotes
+    environment:
+      POSTGRES_USER: notes
+      POSTGRES_DB: potatonotes
+      POSTGRES_PASSWORD: notes
+    volumes:
+    - db-data:/var/lib/postgresql/data
+
+  api:
+    image: atechnohazard/potatosync:latest
+    restart: always
+    depends_on:
+      - db
+    networks:
+      - potatonotes
+    volumes:
+      - ./.env:/go/bin/.env
+    ports:
+      - 4000:4000
+
+networks:
+  potatonotes:
+
+volumes:
+  db-data:
