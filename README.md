@@ -30,7 +30,7 @@ wget https://raw.githubusercontent.com/ATechnoHazard/potatosync/master/docker-co
 ```
 * Download the .env file
 ```
-wget https://raw.githubusercontent.com/ATechnoHazard/potatosync/master/.env
+wget https://raw.githubusercontent.com/ATechnoHazard/potatosync/master/docker.env
 ```
 * Run docker-compose in the directory where you downloaded the file
 ```
