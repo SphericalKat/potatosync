@@ -19,6 +19,25 @@ To build the docker image with the binary, run `make img-build`
 
 *Note: You MUST have built the binary to be able to build the docker image.*
 
+## Self-Hosting
+In order to host the api yourself you need to follow these steps:
+
+* Install Docker https://docs.docker.com/install/ 
+* Install Docker-Compose https://docs.docker.com/compose/install/
+* Download the docker-compose.yml
+```
+wget https://raw.githubusercontent.com/ATechnoHazard/potatosync/master/docker-compose.yml
+```
+* Download the .env file
+```
+wget https://raw.githubusercontent.com/ATechnoHazard/potatosync/master/.env
+```
+* Run docker-compose in the directory where you downloaded the file
+```
+sudo docker-compose up
+```
+* You should now be up and running!
+
 ## Contributing
 We are grateful for any and all contributions, so feel free to send a PR our way! Just remember to `gofmt` often, and document as much as you can.
 
