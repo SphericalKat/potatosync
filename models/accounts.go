@@ -84,6 +84,11 @@ func (acc *Account) Validate() (map[string]interface{}, bool) {
 
 // Create a new user account
 func (acc *Account) Create() map[string]interface{} {
+	// Abort immediately if registration disabled.
+	if os.Getenv("allow_registrations") == "false" {
+		return u.Message(false, "RegistrationDisabledError")
+	}
+
 	if res, ok := acc.Validate(); !ok {
 		return res
 	}
