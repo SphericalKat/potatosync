@@ -1,6 +1,6 @@
 # github.com/dgrijalva/jwt-go v3.2.0+incompatible
 github.com/dgrijalva/jwt-go
-# github.com/gorilla/mux v1.7.3
+# github.com/gorilla/mux v1.7.4
 github.com/gorilla/mux
 # github.com/jinzhu/gorm v1.9.12
 github.com/jinzhu/gorm
@@ -14,6 +14,12 @@ github.com/lib/pq
 github.com/lib/pq/hstore
 github.com/lib/pq/oid
 github.com/lib/pq/scram
-# golang.org/x/crypto v0.0.0-20200109152110-61a87790db17
+# github.com/rs/cors v1.7.0
+github.com/rs/cors
+# github.com/urfave/negroni v1.0.0
+github.com/urfave/negroni
+# github.com/wI2L/jettison v0.7.1
+github.com/wI2L/jettison
+# golang.org/x/crypto v0.1.0
 golang.org/x/crypto/bcrypt
 golang.org/x/crypto/blowfish
